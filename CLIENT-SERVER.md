@@ -1,0 +1,1 @@
+The client (usually a browser) opens a connection to the server and sends a request. ... The request consists of a line indicating a method such as GET or POST, a Uniform Resource Identifier (URI) indicating which resource is being requested, and an HTTP protocol version separated by spaces.
