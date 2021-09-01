@@ -1,5 +1,5 @@
 
-import permission from "./permission"
-import validation from "./validation"
+import hasPermission from "./permission"
+import validateUsers from "./validation"
 
-export default{permission,validation}
+export default{hasPermission,validateUsers}
