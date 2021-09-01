@@ -1,10 +1,10 @@
-import validateEmail from "./utils/helper";
 
+const TRAINEE='trainer'
 const permissions = {
     'getUsers': {
         all: ['head-trainer'],
-        read : ['trainee', 'trainer'],
-        write : ['reviewer'],
+        read : ['trainee', TRAINEE],
+        write : [TRAINEE],
         delete: [],
     },
 }
