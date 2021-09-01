@@ -1,10 +1,13 @@
 
-const TRAINEE='trainer'
+const TRAINEE='trainee'
+const HEAD_TRAINER='head-trainer'
+const TRAINER='trainer'
+
 const permissions = {
     'getUsers': {
-        all: ['head-trainer'],
-        read : ['trainee', TRAINEE],
-        write : [TRAINEE],
+        all: [HEAD_TRAINER],
+        read : [TRAINEE, TRAINER],
+        write : [TRAINER],
         delete: [],
     },
 }
