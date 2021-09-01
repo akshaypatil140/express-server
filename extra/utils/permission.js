@@ -55,3 +55,4 @@ const hasPermission = (module_name,role,permission_type) =>{
         console.log(err);
     }
 }
+export default hasPermission;
