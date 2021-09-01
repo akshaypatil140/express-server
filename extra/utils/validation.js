@@ -2,7 +2,7 @@
 import validateEmail from "./helper";
 
 
-let validateUsers = (users) =>{
+const validateUsers = (users) =>{
     let valid_users  = [];
     let invalid_users  = [];
 
