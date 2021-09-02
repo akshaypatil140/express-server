@@ -1,4 +1,4 @@
-import diamond from "./diamond";
+import diamond from './diamond';
 import equilateral from './equilateral';
 
 

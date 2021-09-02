@@ -6,8 +6,8 @@ const TRAINER = 'trainer';
 const permissions: Permission = {
     'getUsers': {
         all: [HEAD_TRAINER],
-        read : [TRAINEE, TRAINER],
-        write : [TRAINER],
+        read: [TRAINEE, TRAINER],
+        write: [TRAINER],
         delete: [],
     },
 };
@@ -27,4 +27,4 @@ const users = [
     }
 ];
 
-export default {permissions, users, TRAINEE, HEAD_TRAINER, TRAINER};
+export default { permissions, users, TRAINEE, HEAD_TRAINER, TRAINER };
