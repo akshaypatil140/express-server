@@ -4,5 +4,5 @@ import constant from "./constant"
 patterns.diamond(6)
 patterns.equilateral(5)
 utils.validateUsers(constant.users)
-console.log(utils.hasPermission("getUsers", constant.TRAINEE, "read"));
+console.log(utils.hasPermission(constant.getUser, constant.TRAINEE, constant.read));
 
