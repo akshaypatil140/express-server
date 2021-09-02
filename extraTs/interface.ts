@@ -1,4 +1,4 @@
-export interface Users  {
+export interface IUsers  {
     [index: number]: { traineeEmail: string, reviewerEmail: string};
 }
 export interface Permission {
