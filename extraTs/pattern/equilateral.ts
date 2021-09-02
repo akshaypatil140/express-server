@@ -1,11 +1,11 @@
 const printEquilateralPattern = (noOfRows) => {
   if (noOfRows >= 2 && noOfRows <= 9) {
-    let patterns: string;
+    let patterns: string = '';
     // equilateral pyramid
     for (let i = 1; i <= noOfRows; i++) {
       // printing spaces
       for (let j = noOfRows; j > i; j--) {
-        patterns += '';
+        patterns += ' ';
       }
       // printing star
       for (let k = 0; k < i * 2 - 1; k++) {
