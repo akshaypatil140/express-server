@@ -1,13 +1,19 @@
 import { Router } from 'express';
-import TraineeRoutes  from './controller';
+import trainee  from './controller';
 import validationHandler from '../../lib/routes/validationHandler';
 import validation from './validation';
+import authMiddleware from '../../lib/routes/authMiddleware';
+import { TRAINEES } from '../../lib/constant';
 
 const router = Router();
 
-router.get('/', validationHandler(validation.get), TraineeRoutes.get);
-router.post('/', validationHandler(validation.create), TraineeRoutes.post);
-router.put('/:name', validationHandler(validation.update), TraineeRoutes.put);
-router.delete('/:name', validationHandler(validation.delete), TraineeRoutes.delete);
+
+
+router.get('/', authMiddleware(TRAINEES, 'read'), validationHandler(validation.get), trainee.get);
+router.post('/', authMiddleware(TRAINEES, 'write'), validationHandler(validation.create), trainee.post);
+router.put('/', authMiddleware(TRAINEES, 'write'), validationHandler(validation.update), trainee.put);
+router.delete('/', authMiddleware(TRAINEES, 'delete'), validationHandler(validation.delete), trainee.delete);
+router.post('/createToken', trainee.createToken);
+
 export default router;
 
