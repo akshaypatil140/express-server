@@ -6,7 +6,7 @@ class Trainee {
     get(req: Request, res: Response, next: Next) {
         let { skip, limit } = req.body;
         skip = skip || 0;
-        limit = limit || 1;
+        limit = limit || 10;
         if (Number( skip )  >= helper.rawTraineeData().length) {
             return res.status(400).send({message: 'initial limit out of bound'});
         }
@@ -17,28 +17,28 @@ class Trainee {
     post(req: Request, res: Response, next: Next) {
         // console.log(req.body);
         const { id, name, designation, location } = req.body;
-        if (!name && !id) {
+        if (!name || !id) {
             return res.status(400).send({ message: 'required trainee details', error: 'error msg' });
         }
         return res.status(200).send({ message: 'trainee added sucessfully' });
     }
     put = (req: Request, res: Response): any => {
         const trainee = helper.rawTraineeData();
-        const requestName = req.params.name;
+        const requestId = req.params.id;
         const data = trainee.find((post, index) => {
-            if (post.name === requestName) return true;
+            if (post.id === requestId) return true;
         });
         data.designation = 'Associate Engineer';
         return res.status(200).send({ message: 'Updated trainee successfully', data: trainee });
     }
     delete = (req: Request, res: Response) => {
         const trainee = helper.rawTraineeData();
-        const requestName = req.params.name;
-        const isFound = helper.rawTraineeData().find(people => people.name === requestName);
+        const requestId = req.params.id;
+        const isFound = helper.rawTraineeData().find(people => people.id === requestId);
         if (!isFound) {
-            return res.status(404).json({ status: 404, message: `No Person with name ${requestName}` });
+            return res.status(404).json({ status: 404, message: `No Person with name ${requestId}` });
         }
-        const deletedData = helper.rawTraineeData().filter(people => people.name !== requestName);
+        const deletedData = helper.rawTraineeData().filter(people => people.id !== requestId);
         return res.status(200).send({ message: 'deleted trainee successfully', data: deletedData });
     }
 }
