@@ -17,7 +17,7 @@ class Trainee {
     post(req: Request, res: Response, next: Next) {
         // console.log(req.body);
         const { id, name, designation, location } = req.body;
-        if (!name || !id) {
+        if (!id) {
             return res.status(400).send({ message: 'required trainee details', error: 'error msg' });
         }
         return res.status(200).send({ message: 'trainee added sucessfully' });
