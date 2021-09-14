@@ -29,7 +29,7 @@ class Trainee {
         const data = trainee.find((post, index) => {
             if (post.id === requestId) return true;
         });
-        if (data){
+        if (data) {
         data.designation = designation;
         data.name = name;
         data.location = location;
