@@ -27,7 +27,11 @@ export default class UserRepository {
         return model.save();
     }
     public update(data: any): mongoose.UpdateQuery<IUserModel> {
-        console.log('userRepository:: update', data);
-        return userModel.updateOne(data);
+        const { _id , ...userData} = data;
+        return userModel.updateOne({_id} , { ...userData});
+    }
+    public delete(data: any) {
+        const result = userModel.deleteOne(data);
+        return result;
     }
 }
