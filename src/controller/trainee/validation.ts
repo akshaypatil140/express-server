@@ -23,7 +23,7 @@ export default Object.freeze
         }
     },
     delete: {
-        name: {
+        id: {
             exists: true,
             string: true,
             errorMessage: 'Id is required',
@@ -43,7 +43,7 @@ export default Object.freeze
         }
     },
     update: {
-        name: {
+        id: {
             exists: true,
             string: true,
             in: ['param']
@@ -53,9 +53,9 @@ export default Object.freeze
         //     in: ['body'],
         //     exists: true,
         //     isObject: true,
-        //     // custom: dataToUpdate => {
-        //     //     console.log('updtaed');
-        //     // },
+        //     custom: dataToUpdate => {
+        //         console.log('updtaed');
+        //     },
         // }
     }
 });
