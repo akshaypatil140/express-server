@@ -23,16 +23,20 @@ class Trainee {
         return res.status(200).send({ message: 'trainee added sucessfully' });
     }
     put = (req: Request, res: Response): any => {
+        const { name, designation, location } = req.body;
         const trainee = helper.rawTraineeData();
         const requestId = req.params.id;
         const data = trainee.find((post, index) => {
             if (post.id === requestId) return true;
         });
-        data.designation = 'Associate Engineer';
-        return res.status(200).send({ message: 'Updated trainee successfully', data: trainee });
+        if (data){
+        data.designation = designation;
+        data.name = name;
+        data.location = location;
+        }
+        return res.status(200).send({ message: 'Updated trainee successfully', data });
     }
     delete = (req: Request, res: Response) => {
-        const trainee = helper.rawTraineeData();
         const requestId = req.params.id;
         const isFound = helper.rawTraineeData().find(people => people.id === requestId);
         if (!isFound) {
