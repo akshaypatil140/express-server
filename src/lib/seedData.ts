@@ -1,4 +1,4 @@
-import UserRepository from '../repositories/user/UserRepository';
+import UserRepository from '../lib/repositories/user/UserRepository';
 
 const userRepository: UserRepository = new UserRepository();
 export default () => {
@@ -18,9 +18,9 @@ export default () => {
             );
             userRepository.create(
                 {
-                    name: 'Akshaypatil',
+                    name: 'AkshayPatil',
                     role: 'trainee',
-                    email: 'Darshan.borase@successive.tech',
+                    email: 'akshay.patil@successive.tech',
                     password: 'Darshan@123'
                 }
             );
