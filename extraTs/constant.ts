@@ -1,4 +1,4 @@
-import { Users, Permission } from './interface';
+import { IUsers, Permission } from './interface';
 const TRAINEE = 'trainee';
 const HEAD_TRAINER = 'head-trainer';
 const TRAINER = 'trainer';
@@ -26,5 +26,6 @@ const users = [
         reviewerEmail: 'akshay.successivetech',
     }
 ];
+
 
 export default { permissions, users, TRAINEE, HEAD_TRAINER, TRAINER };
