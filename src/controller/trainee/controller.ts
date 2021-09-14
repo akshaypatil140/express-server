@@ -1,6 +1,8 @@
 import { Request, Response, Next } from 'express';
 import { request } from 'http';
 import helper from '../helper';
+import * as jwt from 'jsonwebtoken';
+import config from '../../config/configuration';
 
 class Trainee {
     get(req: Request, res: Response, next: Next) {
@@ -45,6 +47,11 @@ class Trainee {
         const deletedData = helper.rawTraineeData().filter(people => people.id !== requestId);
         return res.status(200).send({ message: 'deleted trainee successfully', data: deletedData });
     }
+    createToken = (req: Request, res: Response, next: Next) => {
+        const token = jwt.sign(req.body, config.secret, { expiresIn: '10h' });
+        console.log(token);
+        return res.status(200).send({ message: 'Token successfully created', data: { token }, status: 'success'});
+        }
 }
 
 export default new Trainee();

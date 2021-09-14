@@ -29,3 +29,4 @@ const users = [
 
 
 export default { permissions, users, TRAINEE, HEAD_TRAINER, TRAINER };
+
