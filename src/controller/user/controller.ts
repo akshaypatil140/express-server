@@ -48,13 +48,10 @@ class UserController {
   put = async (request: Request, response: Response): Promise < Response > => {
     const userRepository: UserRepository = new UserRepository();
     try {
-        const data = {
-            _id : request.params.id,
-            name: request.body.name,
-            email: request.body.email,
-            role: request.body.role,
-            password: request.body.password
-        };
+      const data = {
+        originalId : request.params.id,
+        ...request.body
+    };
         const result = await userRepository.update(data);
             return response
                 .status(200)

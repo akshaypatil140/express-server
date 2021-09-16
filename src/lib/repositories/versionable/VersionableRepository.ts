@@ -13,7 +13,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     protected findOne(query: any): mongoose.Query<mongoose.EnforceDocument<D, {}>, mongoose.EnforceDocument<D, {}>> {
         const finalQuery = { deletedAt: undefined, ...query };
-        return this.model.findOne(finalQuery);
+        return this.model.findOne(finalQuery).lean();
     }
 
     protected find(query, projection?: any, options?: any): mongoose.Query<mongoose.EnforceDocument<D, {}>[], mongoose.EnforceDocument<D, {}>> {
@@ -40,13 +40,15 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
     protected async update(data: any): Promise<D> {
         console.log('UserRepository:: update', data);
-        const previousRecord = await this.find({ originalId: data.originalId });
+        const previousRecord = await this.findOne({ originalId: data.originalId });
+        console.log(previousRecord);
         if (previousRecord) {
             await this.softdelete({ originalId: data.originalId, deletedAt: undefined }, { deletedAt: Date.now() });
         } else {
             return undefined;
         }
         const newData = { ...previousRecord, ...data };
+        console.log(newData);
         newData._id = VersionableRepository.createObjectId();
         delete newData.deletedAt;
         const model = new this.model(newData);
