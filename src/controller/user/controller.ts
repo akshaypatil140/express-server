@@ -31,7 +31,8 @@ class UserController {
             name: request.body.name,
             email: request.body.email,
             role: request.body.role,
-            password: request.body.password
+            password: request.body.password,
+            deletedAt: undefined
         };
         await userRepository.create(data);
         return response
@@ -69,7 +70,7 @@ class UserController {
     const userRepository: UserRepository = new UserRepository();
     try {
         const _id = request.params.id;
-        await userRepository.delete({_id});
+        await userRepository.delete({_id}, {originalID: _id});
         return response
         .status(200)
         .send({ message: 'deleted trainee successfully'});
