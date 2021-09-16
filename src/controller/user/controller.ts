@@ -67,7 +67,11 @@ class UserController {
     const userRepository: UserRepository = new UserRepository();
     try {
         const _id = request.params.id;
-        await userRepository.delete({_id}, {originalID: _id});
+        const data = {
+            originalId: _id,
+            deletedAt: Date(),
+        };
+        const result = await userRepository.delete( { _id }, data);
         return response
         .status(200)
         .send({ message: 'deleted trainee successfully'});
