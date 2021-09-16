@@ -42,7 +42,7 @@ export default Object.freeze
             errorMessage: 'Limit is required',
         }
     },
-    dataToUpdate: {
+    update: {
         id: {
             exists: true,
             string: true,
