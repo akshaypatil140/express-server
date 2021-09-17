@@ -2,6 +2,7 @@ import { Request, Response, Next } from 'express';
 import UserRepository from '../../lib/repositories/user/UserRepository';
 import * as jwt from 'jsonwebtoken';
 import config from '../../config/configuration';
+import * as bcrypt from 'bcrypt';
 
 class UserController {
   get = async (request: Request, response: Response): Promise < Response > => {
@@ -81,10 +82,39 @@ class UserController {
         .json({ status: 'Bad Request', message: error });
     }
   };
-    createToken = (req: Request, res: Response, next: Next) => {
-    const token = jwt.sign(req.body, config.secret, { expiresIn: '10h' });
-    console.log(token);
-    return res.status(200).send({ message: 'Token successfully created', data: { token }, status: 'success'});
+  createToken = async (request: Request, response: Response, next: Next): Promise < Response > => {
+    const userRepository: UserRepository = new UserRepository();
+    try {
+      const { id , email, password } = request.body;
+      const user = await userRepository.findOne({ email });
+      let token;
+      if (user) {
+        const validatePassword = await bcrypt.compare(password, user.password);
+        console.log(user, '===', validatePassword);
+        if (validatePassword) {
+          token = jwt.sign({ _id: id, _email: email}, config.secret, { expiresIn: '15m' });
+        } else {
+          return response
+            .status(401)
+            .send({ message: 'Invalid Password' });
+        }
+      } else {
+        return response
+          .status(401)
+          .send({ message: 'User does not exist' });
+      }
+      return response
+        .status(200)
+        .send({
+          message: 'Token successfully created',
+          data: { token },
+          status: 'success',
+        });
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ status: 'Bad Request', message: error });
     }
+  };
 }
 export default new UserController();
