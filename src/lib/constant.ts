@@ -6,6 +6,8 @@ export const USER: string = 'user';
 export const TRAINER: string = 'trainer';
 export const HEAD_TRAINER: string = 'head-trainer';
 export const BCRYPT_SALT_ROUNDS: number = 10;
+export const LIMIT = 10;
+export const SKIP = 0;
 
 export const permissions: any = {
     [TRAINEES]: {

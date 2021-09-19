@@ -33,12 +33,18 @@ export default Object.freeze
     get: {
         skip: {
             exists: false,
-            in: ['body'],
+            isInt: true,
+            in: ['query'],
+            toInt: true,
+            optional: true,
             errorMessage: 'Skip is required',
         },
         limit: {
             exists: false,
-            in: ['body'],
+            isInt: true,
+            in: ['query'],
+            toInt: true,
+            optional: true,
             errorMessage: 'Limit is required',
         }
     },
