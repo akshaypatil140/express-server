@@ -11,8 +11,8 @@ const router = Router();
 
 router.get('/', authMiddleware(TRAINEES, 'read'), validationHandler(validation.get), trainee.get);
 router.post('/', authMiddleware(TRAINEES, 'write'), validationHandler(validation.create), trainee.post);
-router.put('/:id', authMiddleware(TRAINEES, 'write'), validationHandler(validation.update), trainee.put);
-router.delete('/:id', authMiddleware(TRAINEES, 'delete'), validationHandler(validation.delete), trainee.delete);
+router.put('/', authMiddleware(TRAINEES, 'write'), validationHandler(validation.update), trainee.put);
+router.delete('/', authMiddleware(TRAINEES, 'delete'), validationHandler(validation.delete), trainee.delete);
 router.post('/createToken', trainee.createToken);
 
 export default router;
