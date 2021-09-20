@@ -1,0 +1,65 @@
+{
+  "name": "express-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx babel-node extra",
+    "start:extra": "babel-node extra",
+    "start:extraTs": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
+    "nodemon": "nodemon ./dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "node ./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
+    "lint:fix": "npm run lint --fix",
+    "prepare": "husky install",
+    "pre-commit": "npm run lint ",
+    "commit": "cz"
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "npm run lint",
+      "pre-commit": "npm run lint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshaypatil140/express-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akshaypatil140/express-server/issues"
+  },
+  "homepage": "https://github.com/akshaypatil140/express-server#readme",
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.9",
+    "@babel/preset-env": "^7.15.0",
+    "@types/node": "^16.7.10",
+    "commitizen": "^4.2.4",
+    "husky": "^7.0.0",
+    "nodemon": "^2.0.12",
+    "pre-commit": "^1.2.2",
+    "tsc-watch": "^4.5.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.4.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@types/mongoose": "^5.11.97",
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.1",
+    "json-viewer-js": "^1.0.7",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.5",
+    "morgan": "^1.10.0"
+  }
+}
