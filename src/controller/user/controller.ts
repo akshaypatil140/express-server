@@ -3,7 +3,7 @@ import UserRepository from '../../lib/repositories/user/UserRepository';
 import * as jwt from 'jsonwebtoken';
 import config from '../../config/configuration';
 import * as bcrypt from 'bcrypt';
-import { USER, LIMIT, SKIP } from '../../lib/constant';
+import { USER, LIMIT, SKIP, TRAINEE } from '../../lib/constant';
 
 class UserController {
   get = async (request: Request, response: Response): Promise < Response > => {
@@ -30,7 +30,7 @@ class UserController {
     try {
         const { skip = SKIP, limit = LIMIT, sort = { createdAt: -1 } } = request.query;
         console.log({ skip, limit, sort });
-        const _result = await userRepository.find({ role: USER }, undefined, { skip, limit, sort });
+        const _result = await userRepository.find({ role: TRAINEE }, undefined, { skip, limit, sort });
         const _count = await userRepository.count();
         const _data = [{ count: _count, result: _result }];
         return response
