@@ -1,3 +1,5 @@
+import { BCRYPT_SALT_ROUNDS } from '../lib/constant';
+import * as bcrypt from 'bcrypt';
 
 const rawTraineeData = () => {
     const trainee: {
@@ -117,4 +119,9 @@ const rawTraineeData = () => {
     ];
     return trainee;
   };
- export default {rawTraineeData};
+  const  hashPassword = async (password: string): Promise<string> => {
+    const salt = await bcrypt.genSalt(BCRYPT_SALT_ROUNDS);
+    password = await bcrypt.hash(password, salt);
+    return password;
+  };
+ export default {rawTraineeData, hashPassword};
