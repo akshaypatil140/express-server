@@ -7,7 +7,8 @@ class UserController {
   get = async (request: Request, response: Response): Promise < Response > => {
         const userRepository: UserRepository = new UserRepository();
         try {
-            const {id , emailID} = request.user;
+            const {id , emailID} = request.body;
+            console.log(request);
             const query = {
                 _id : id,
                 email: emailID
