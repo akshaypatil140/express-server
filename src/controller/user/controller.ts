@@ -6,144 +6,133 @@ import * as bcrypt from 'bcrypt';
 import { USER, LIMIT, SKIP, TRAINEE } from '../../lib/constant';
 
 class UserController {
-  get = async (request: Request, response: Response): Promise<Response> => {
-      const userRepository: UserRepository = new UserRepository();
-      try {
-          const { _id, _email } = request.user;
-          const query = { _id, _email };
-          const result = await userRepository.find(query);
-          return response
-              .status(200)
-              .send({ message: 'Fetched data successfully', data: result });
-      } catch (error) {
-          return response
-              .status(400)
-              .json({ status: 'Bad Request', message: error });
-      }
+  get = async (request: Request, response: Response): Promise < Response > => {
+        const userRepository: UserRepository = new UserRepository();
+        try {
+            const {id , emailID} = request.user;
+            const query = {
+                _id : id,
+                email: emailID
+            };
+            console.log(query);
+            const result = await userRepository.find(query);
+                return response
+                .status(200)
+                .send({ message: 'Fetched data successfully', data: result });
+        } catch (error) {
+            return response
+            .status(400)
+            .json({ status: 'Bad Request', message: error });
+        }
   };
-
   getAll = async (request: Request, response: Response): Promise<Response> => {
-      const userRepository: UserRepository = new UserRepository();
-      try {
-          const { search, skip = SKIP, limit = LIMIT, sort = { createdAt: -1 } } = request.query;
-          console.log({ skip, limit, sort });
-          const query: any = {
-            role: TRAINEE,
-            $or: [
-                {name : {$regex : new RegExp(search), $options: 'i'}},
-                {email : {$regex : new RegExp(search), $options: 'i'}}
-            ]
-          };
-          console.log('query', query);
-          const _result = await userRepository.find(
-              query,
-              undefined,
-              { skip, limit, sort });
-          const _count = await userRepository.count();
-          const _data = [{ count: _count, result: _result }];
-          return response
-              .status(200)
-              .send({ message: 'Fetched data successfully', data: _data });
-      } catch (error) {
-          return response
-              .status(400)
-              .json({ status: 'Bad Request', message: error });
-      }
+    const userRepository: UserRepository = new UserRepository();
+    try {
+        const { skip = SKIP, limit = LIMIT, sort = { createdAt: -1 } } = request.query;
+        console.log({ skip, limit, sort });
+        const _result = await userRepository.find({ role: TRAINEE }, undefined, { skip, limit, sort });
+        const _count = await userRepository.count();
+        const _data = [{ count: _count, result: _result }];
+        return response
+            .status(200)
+            .send({ message: 'Fetched data successfully', data: _data });
+    } catch (error) {
+        return response
+            .status(400)
+            .json({ status: 'Bad Request', message: error });
+    }
+};
+  post = async (request: Request, response: Response): Promise < Response > => {
+    const userRepository: UserRepository = new UserRepository();
+    try {
+        const data = {
+            name: request.body.name,
+            email: request.body.email,
+            role: request.body.role,
+            password: request.body.password,
+            deletedAt: undefined
+        };
+        await userRepository.create(data);
+        return response
+            .status(200)
+            .send({ message: 'New Trainee Created Successfully'});
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ status: 'Bad Request', message: error });
+    }
   };
 
-  post = async (request: Request, response: Response): Promise<Response> => {
-      const userRepository: UserRepository = new UserRepository();
-      try {
-          const data = {
-              name: request.body.name,
-              email: request.body.email,
-              role: request.body.role,
-              password: request.body.password
-          };
-          const result = await userRepository.create(data);
-          return response
-              .status(200)
-              .send({ message: 'New User Created Successfully', data: 'result' });
-      } catch (error) {
-          return response
-              .status(400)
-              .json({ status: 'Bad Request', message: error });
-      }
+  put = async (request: Request, response: Response): Promise < Response > => {
+    const userRepository: UserRepository = new UserRepository();
+    try {
+      const data = {
+        originalId : request.params.id,
+        ...request.body
+    };
+        const result = await userRepository.update(data);
+            return response
+                .status(200)
+                .send({ message: 'Updated trainee successfully', data: result});
+    } catch (error) {
+        return response
+          .status(400)
+          .json({ status: 'Bad Request', message: error });
+    }
   };
 
-  put = async (request: Request, response: Response): Promise<Response> => {
-      const userRepository: UserRepository = new UserRepository();
-      try {
-          const data = {
-              originalId: request.params.id,
-              ...request.body
-          };
-          const result = await userRepository.update(data);
-          return response
-              .status(200)
-              .send({ message: 'Updated User successfully', data: result });
-      } catch (error) {
-          return response
-              .status(400)
-              .json({ status: 'Bad Request', message: error });
-      }
+    delete = async (request: Request, response: Response): Promise < Response > => {
+    const userRepository: UserRepository = new UserRepository();
+    try {
+        const _id = request.params.id;
+        const data = {
+            originalId: _id,
+            deletedAt: Date(),
+        };
+        const result = await userRepository.delete( { _id }, data);
+        return response
+        .status(200)
+        .send({ message: 'deleted trainee successfully'});
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ status: 'Bad Request', message: error });
+    }
   };
-
-  delete = async (request: Request, response: Response): Promise<Response> => {
-      const userRepository: UserRepository = new UserRepository();
-      try {
-          const _id = request.params.id;
-          const data = {
-              originalId: _id,
-              deletedAt: Date()
-          };
-          const result = await userRepository.delete({ _id }, data);
+  createToken = async (request: Request, response: Response, next: Next): Promise < Response > => {
+    const userRepository: UserRepository = new UserRepository();
+    try {
+      const { id , email, password } = request.body;
+      const user = await userRepository.findOne({ email });
+      let token;
+      if (user) {
+        const validatePassword = await bcrypt.compare(password, user.password);
+        console.log(user, '===', validatePassword);
+        if (validatePassword) {
+          token = jwt.sign({ _id: id, _email: email}, config.secret, { expiresIn: '15m' });
+        } else {
           return response
-              .status(200)
-              .send({ message: 'Deleted User successfully', data: result });
-      } catch (error) {
-          return response
-              .status(400)
-              .json({ status: 'Bad Request', message: error });
-      }
-  };
-createToken = async (request: Request, response: Response, next: Next): Promise < Response > => {
-  const userRepository: UserRepository = new UserRepository();
-  try {
-    const { id , email, password } = request.body;
-    const user = await userRepository.findOne({ email });
-    let token;
-    if (user) {
-      const validatePassword = await bcrypt.compare(password, user.password);
-      console.log(user, '===', validatePassword);
-      if (validatePassword) {
-        token = jwt.sign({ _id: id, _email: email}, config.secret, { expiresIn: '15m' });
+            .status(401)
+            .send({ message: 'Invalid Password' });
+        }
       } else {
         return response
           .status(401)
-          .send({ message: 'Invalid Password' });
+          .send({ message: 'User does not exist' });
       }
-    } else {
       return response
-        .status(401)
-        .send({ message: 'User does not exist' });
+        .status(200)
+        .send({
+          message: 'Token successfully created',
+          data: { token },
+          status: 'success',
+        });
+    } catch (error) {
+      return response
+        .status(400)
+        .json({ status: 'Bad Request', message: error });
     }
-    return response
-      .status(200)
-      .send({
-        message: 'Token successfully created',
-        data: { token },
-        status: 'success',
-      });
-  } catch (error) {
-    return response
-      .status(400)
-      .json({ status: 'Bad Request', message: error });
-  }
-};
+  };
 }
 export default new UserController();
-
-
-
 
