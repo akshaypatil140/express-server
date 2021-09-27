@@ -24,7 +24,25 @@ export default async () => {
                 role: 'trainee',
                 email: 'aashlesha.chitte@successive.tech',
                 password: config.password,
-            }
+            },
+            {
+                name: 'Darshan borse',
+                role: 'trainee',
+                email: 'darshan.borse@successive.tech',
+                password: config.password,
+        },
+        {
+            name: 'Mayur Mahajan',
+            role: 'trainer',
+            email: 'mayur.mahajan@successive.tech',
+            password: config.password,
+    },
+    {
+        name: 'Darshani Alabnur',
+        role: 'trainee',
+        email: 'darshani.alabnur@successive.tech',
+        password: config.password,
+}
         ];
         seedData.forEach(async user => {
             await userRepository.create(user);
