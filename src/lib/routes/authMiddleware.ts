@@ -41,5 +41,6 @@ export default (moduleName, permissionType) => async(req, res, next) => {
         next({ error : 'Unauthorized', message : 'Permisssion Denied', status : 403});
     }
     req.user = user;
-    next();
+    console.log(user);
+        next();
 };
