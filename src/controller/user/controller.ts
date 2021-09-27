@@ -28,11 +28,23 @@ class UserController {
   getAll = async (request: Request, response: Response): Promise<Response> => {
     const userRepository: UserRepository = new UserRepository();
     try {
-        const { skip = SKIP, limit = LIMIT, sort = { createdAt: -1 } } = request.query;
+        const { search, skip = SKIP, limit = LIMIT, sort = { createdAt: -1 } } = request.query;
         console.log({ skip, limit, sort });
-        const _result = await userRepository.find({ role: TRAINEE }, undefined, { skip, limit, sort });
+        const query: any = {
+          role: TRAINEE,
+          $or: [
+              { name: { $regex: new RegExp(search), $options: 'i' } },
+              { email: { $regex: new RegExp(search), $options: 'i' } }
+          ]
+      };
+      const _result = await userRepository.find(query, undefined, { skip, limit, sort });
         const _count = await userRepository.count();
         const _data = [{ totalNoOfRecords: _count, count: _result.length , result: _result }];
+        if(_result.length=== 0){
+          return response
+          .status(404)
+          .send({message:'data not found'})
+        }
         return response
             .status(200)
             .send({ message: 'Fetched data successfully', data: _data });

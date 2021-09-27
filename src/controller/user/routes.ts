@@ -63,6 +63,25 @@ export const router = express.Router();
  *   get:
  *        tags: [USER]
  *        description: Returns all the user
+ *        parameters:
+ *         - in: query
+ *           name: skip
+ *           schema:
+ *            type: string
+ *         - in: query
+ *           name: limit
+ *           schema:
+ *            type: string
+ *         - in: query
+ *           name: sort
+ *           schema:
+ *            type: string
+ *           description: sort by email or name
+ *         - in: query
+ *           name: search
+ *           schema:
+ *            type: string
+ *           description: search by email or name
  *        security:
  *             - bearerAuth: []
  *        responses :
