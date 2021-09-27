@@ -6,20 +6,24 @@ import * as bcrypt from 'bcrypt';
 import { USER, LIMIT, SKIP, TRAINEE } from '../../lib/constant';
 
 class UserController {
-  get = async (request: Request, response: Response): Promise<Response> => {
-      const userRepository: UserRepository = new UserRepository();
-      try {
-          const { _id, _email } = request.user;
-          const query = { _id, _email };
-          const result = await userRepository.find(query);
-          return response
-              .status(200)
-              .send({ message: 'Fetched data successfully', data: result });
-      } catch (error) {
-          return response
-              .status(400)
-              .json({ status: 'Bad Request', message: error });
-      }
+  get = async (request: Request, response: Response): Promise < Response > => {
+        const userRepository: UserRepository = new UserRepository();
+        try {
+            const {id , emailID} = request.user;
+            const query = {
+                _id : id,
+                email: emailID
+            };
+            console.log(query);
+            const result = await userRepository.find(query);
+                return response
+                .status(200)
+                .send({ message: 'Fetched data successfully', data: result });
+        } catch (error) {
+            return response
+            .status(400)
+            .json({ status: 'Bad Request', message: error });
+        }
   };
   getAll = async (request: Request, response: Response): Promise<Response> => {
     const userRepository: UserRepository = new UserRepository();
@@ -28,7 +32,7 @@ class UserController {
         console.log({ skip, limit, sort });
         const _result = await userRepository.find({ role: TRAINEE }, undefined, { skip, limit, sort });
         const _count = await userRepository.count();
-        const _data = [{ count: _count, result: _result }];
+        const _data = [{ totalNoOfRecords: _count, count: _result.length , result: _result }];
         return response
             .status(200)
             .send({ message: 'Fetched data successfully', data: _data });
