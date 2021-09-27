@@ -40,10 +40,10 @@ class UserController {
       const _result = await userRepository.find(query, undefined, { skip, limit, sort });
         const _count = await userRepository.count();
         const _data = [{ totalNoOfRecords: _count, count: _result.length , result: _result }];
-        if(_result.length=== 0){
+        if ( _result.length === 0 ) {
           return response
           .status(404)
-          .send({message:'data not found'})
+          .send({ message: 'data not found' });
         }
         return response
             .status(200)

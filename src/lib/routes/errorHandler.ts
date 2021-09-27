@@ -2,7 +2,6 @@ const errorHandler = (errors, request, response, next) => {
     if (response.headersSent) {
         console.log('In here');
         return next(errors);
-        
     }
     const {message, error, status} = errors;
     const errorResponse = {
