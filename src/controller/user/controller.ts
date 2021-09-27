@@ -32,7 +32,7 @@ class UserController {
         console.log({ skip, limit, sort });
         const _result = await userRepository.find({ role: TRAINEE }, undefined, { skip, limit, sort });
         const _count = await userRepository.count();
-        const _data = [{ count: _count, result: _result }];
+        const _data = [{ totalNoOfRecords: _count, count: _result.length , result: _result }];
         return response
             .status(200)
             .send({ message: 'Fetched data successfully', data: _data });
