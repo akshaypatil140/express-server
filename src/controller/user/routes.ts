@@ -87,9 +87,12 @@ router.get('/', authMiddleware(USER, 'read'), validationHandler(validation.getAl
  *                    schema:
  *                        type: object
  *                        required:
+ *                          -id
  *                          -email
  *                          -password
  *                        properties:
+ *                            id:
+ *                               type: string
  *                            email:
  *                               type: string
  *
