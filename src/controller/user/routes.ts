@@ -61,7 +61,7 @@ export const router = express.Router();
  * @swagger
  * /user:
  *   get:
- *        tags: [USER]
+ *        tags: [User]
  *        description: Returns all the user
  *        parameters:
  *         - in: query
@@ -97,7 +97,7 @@ router.get('/', authMiddleware(USER, 'read'), validationHandler(validation.getAl
  * /user/createToken:
  *   post:
  *        description: To generate authorization token
- *        tags: [USER]
+ *        tags: [User]
  *        requestBody:
  *              description: Enter email and password to generate token
  *              required: true
