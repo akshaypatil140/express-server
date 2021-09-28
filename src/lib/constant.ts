@@ -1,5 +1,4 @@
 import { constants } from 'buffer';
-
 export const TRAINEES: string = 'trainees';
 export const TRAINEE: string = 'trainee';
 export const USER: string = 'user';

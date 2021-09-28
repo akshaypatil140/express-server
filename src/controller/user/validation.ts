@@ -30,7 +30,7 @@ export default Object.freeze
             in: ['param']
         }
     },
-    get: {
+    getAll: {
         skip: {
             exists: false,
             isInt: true,
