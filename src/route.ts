@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { traineeRoute, userRoute }  from './controller';
+import { traineeRoute, userRoute, ReviewerRoutes }  from './controller';
 
 const router = Router();
 /**
@@ -14,5 +14,6 @@ const router = Router();
 
 router.use('/trainee', traineeRoute);
 router.use('/user', userRoute);
+router.use('/reviewer', ReviewerRoutes);
 
 export default router;

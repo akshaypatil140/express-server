@@ -7,6 +7,8 @@ export const HEAD_TRAINER: string = 'head-trainer';
 export const BCRYPT_SALT_ROUNDS: number = 10;
 export const LIMIT = 10;
 export const SKIP = 0;
+export const REVIEWERS: string = 'reviewers';
+export const REVIEWER: string = 'reviewer';
 
 export const permissions: any = {
     [TRAINEES]: {
@@ -19,5 +21,10 @@ export const permissions: any = {
         write : [TRAINER, HEAD_TRAINER, TRAINEE],
         delete : [HEAD_TRAINER]
     },
+    [REVIEWERS]: {
+        read: [TRAINEE, TRAINER, HEAD_TRAINER, REVIEWER],
+        write: [REVIEWER],
+        delete: [REVIEWER]
+    }
 };
 export default constants;
