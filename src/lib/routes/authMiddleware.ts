@@ -2,8 +2,10 @@ import * as jwt from 'jsonwebtoken';
 import UserRepository from '../repositories/user/UserRepository';
 import  config  from '../../config/configuration';
 import hasPermission from '../hasPermission';
+import ReviewerRepository from '../repositories/reviewer/ReviewerRepository';
 
 const userRepository: UserRepository = new UserRepository();
+const reviewerRepository: ReviewerRepository = new ReviewerRepository();
 
 export default (moduleName, permissionType) => async(req, res, next) => {
     let token = req.header('Authorization');
@@ -25,13 +27,16 @@ export default (moduleName, permissionType) => async(req, res, next) => {
     catch (err) {
         next({ error : 'Unauthorized', message : 'User not Authorized', status : 403});
     }
-    // console.log('User is', user);
+     console.log('User is', user);
 
     if (!user) {
         next({ error : 'Unauthorized User', message : 'User not Authorized', status : 403});
     }
 
     const userData = await userRepository.findOne({_id: user._id});
+    console.log('user Data is', userData);
+    // const traineeData = await reviewerRepository.findOne({_id: user._id});
+    // console.log('trainee Data ', traineeData);
     console.log(userData);
     if (!userData) {
         next({ error : 'Unauthorized User Data', message : 'Permisssion Denied', status : 403});
@@ -40,7 +45,6 @@ export default (moduleName, permissionType) => async(req, res, next) => {
     if (!hasPermission( moduleName, userData.role, permissionType )) {
         next({ error : 'Unauthorized', message : 'Permisssion Denied', status : 403});
     }
-    req.user = user;
-    console.log(user);
-        next();
+    req.user = userData;
+    next();
 };
