@@ -68,10 +68,18 @@ class ReviewerController {
                 password: request.body.password,
                 feedback: request.body.feedback
             };
-            const result = await reviewerRepository.create(data);
-            return response
-                .status(200)
-                .send({ message: 'New User Created Successfully', data: 'result' });
+            let result;
+            if ( data.role === TRAINEE ) {
+              result = await reviewerRepository.create(data);
+              return response
+                  .status(200)
+                  .send({ message: 'New User Created Successfully', data: 'result' });
+            }
+            else {
+                return response
+                  .status(400)
+                  .send({ message: `Reviewer has not created the feedback ${data.role}`, data: 'result' });
+            }
         } catch (error) {
             return response
                 .status(400)
